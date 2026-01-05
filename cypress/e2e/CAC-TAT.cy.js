@@ -38,10 +38,11 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     .should('be.visible')*/
 
     //SOLUÇÃO DO PROFESSOR
+    const longText = Cypress._.repeat('Joao', 100)
     cy.get('#firstName').type('João')
     cy.get('#lastName').type('Klunk')
     cy.get('#email').type('joao@email.com')
-    cy.get('#open-text-area').type('Elogio teste')
+    cy.get('#open-text-area').type(longText, {delay: 0})
     cy.get('button[type="submit"]').click()
 
     cy.get('.success > strong').should('be.visible')
