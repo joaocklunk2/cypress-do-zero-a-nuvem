@@ -99,18 +99,48 @@ describe('Central de Atendimento ao Cliente TAT', () => {
       .should('have.value', '')   
   })
 
-  it.only('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', () => {
+  it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', () => {
     cy.get('button[type="submit"]')
       .click()
     cy.get('.error > strong')
       .should('be.visible')
   })
 
-  
+  //SEÇÃO 3, EXERCÍCIO EXTRA 7 - 1ª VERSÃO
+  it('envia o formuário com sucesso usando um comando customizado', () => {
+    cy.fillMandatoryFieldsAndSubmit()
+    cy.get('.success').should('be.visible')
+  })
 
+  //SEÇÃO 3, EXERCÍCIO EXTRA 7 - 2ª VERSÃO
+  it('envia o formuário com sucesso usando um comando customizado', () => {
+    const data = {
+      firstName: 'João',
+      lastName: 'Klunk',
+      email: 'joao@teste.com.br',
+      text: 'teste'
+    }
+    cy.fillMandatoryFieldsAndSubmit(data)
+    cy.get('.success').should('be.visible')
+  })
 
+//SEÇÃO 3, EXERCÍCIO EXTRA 7 - 3ª VERSÃO - Posso colocar um objeto conforme a versão 2, senão colocar ele pega o objeto que está no comando customizado
+  it('envia o formuário com sucesso usando um comando customizado', () => {
+    cy.fillMandatoryFieldsAndSubmit()
+    cy.get('.success').should('be.visible')
+  })
 
+  //SEÇÃO 3, EXERCÍCIO EXTRA 8
+    it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', () => {
+    cy.get('#firstName').type('João')
+    cy.get('#lastName').type('Klunk')
+    cy.get('#email').type('joao@email.com')
+    cy.get('#phone-checkbox').click()
+    cy.get('#open-text-area').type('teste')
+    cy.contains('button', 'Enviar').click()
 
+    cy.get('.error > strong').should('be.visible')
+  })
   
 })
 
