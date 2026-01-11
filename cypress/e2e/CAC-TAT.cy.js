@@ -141,6 +141,95 @@ describe('Central de Atendimento ao Cliente TAT', () => {
 
     cy.get('.error > strong').should('be.visible')
   })
+
+  //SEÇÃO 4 - EXERCÍCIO 1
+  it('seleciona um produto (YouTube) por seu texto', () => {
+    cy.get('#product')
+      .select('YouTube')
+      .should('have.value', 'youtube')
+  })
+
+  //SEÇÃO 4 - EXERCÍCIO EXTRA 1 
+  it('seleciona um produto (Mentoria) por seu valor (value)', () => {
+    cy.get('#product')
+      .select('mentoria')
+      .should('have.value', 'mentoria')
+  })
+
+  //SEÇÃO 4 - EXERCÍCIO EXTRA 2 
+  it('seleciona um produto (Blog) por seu índice', () => {
+    cy.get('#product')
+      .select(1)
+      .should('have.value', 'blog')
+  })
+
+  //SEÇÃO 5 AULA 4 - EXERCÍCIO 
+  it('marca o tipo de atendimento "Feedback"', () => {
+    cy.get('input[type="radio"][value="feedback"]')
+      .check()
+      .should('be.checked')
+  })
+
+  //SEÇÃO 5 AULA 4 - EXERCÍCIO EXTRA
+  //MINHA SOLUÇÃO
+  it('marca cada tipo de atendimento "MINHA SOLUÇÃO"', () => {
+    cy.get('input[type="radio"]')
+      .each(($ajuda, $elogio, $feedback) => {
+        cy.wrap($ajuda, $elogio, $feedback)
+          .check()
+          .should('be.checked')
+    })
+  })
+
+  //SOLUÇÃO DO PROFESSOR 
+  it('marca cada tipo de atendimento', () => {
+    cy.get('input[type="radio"]')
+      .each(typeOfService => {
+        cy.wrap(typeOfService)
+          .check()
+          .should('be.checked')
+    })
+  })
+
+  //SEÇÃO 6 AULA 5 - EXERCÍCIO
+  //MINHA SOLUÇÃO
+  it('marca ambos checkboxes, depois desmarca o último', () => {
+    cy.get('input[type="checkbox"]')
+      .as('checkboxes')  
+      .check()
+      .should('be.checked').last()
+
+    cy.get('@checkboxes')
+      .each(checkbox => {
+    })
+      .last()
+      .uncheck()
+      .should('not.be.checked')    
+  })
+
+  //SOLUÇÃO DO PROFESSOR 
+  it('marca ambos checkboxes, depois desmarca o último 2', () => {
+    cy.get('input[type="checkbox"]')
+      .check()
+      .should('be.checked')
+      .last()
+      .uncheck()
+      .should('not.be.checked')
+  })
+
+  //SEÇÃO 6 AULA 5 - EXERCÍCIO EXTRA
+  it.only('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário "COM CHECK"', () => {
+    cy.get('#firstName').type('João')
+    cy.get('#lastName').type('Klunk')
+    cy.get('#email').type('joao@email.com')
+    cy.get('#phone-checkbox').check()
+    cy.get('#open-text-area').type('teste')
+    cy.contains('button', 'Enviar').click()
+
+    cy.get('.error > strong').should('be.visible')    
+  })
+
+
   
 })
 
