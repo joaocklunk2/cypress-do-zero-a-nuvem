@@ -218,7 +218,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
   })
 
   //SEÇÃO 6 AULA 5 - EXERCÍCIO EXTRA
-  it.only('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário "COM CHECK"', () => {
+  it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário "COM CHECK"', () => {
     cy.get('#firstName').type('João')
     cy.get('#lastName').type('Klunk')
     cy.get('#email').type('joao@email.com')
@@ -229,7 +229,66 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('.error > strong').should('be.visible')    
   })
 
+  //SEÇÃO 7 AULA 6 - EXERCÍCIO
+  //MINHA SOLUÇÃO
+  it('seleciona um arquivo da pasta fixtures', () => {
+    cy.get('input[type="file"]')
+      .selectFile('cypress/fixtures/example.json') 
+      .then(input => {
+        console.log(input)
+        expect(input[0].files[0].name).to.equal('example.json')
+      })
+  })
 
+  //SOLUÇÃO DO PROFESSOR
+  it('seleciona um arquivo da pasta fixtures 2', () => {
+    cy.get('input[type="file"]')
+      .selectFile('cypress/fixtures/example.json') 
+      .should(input => {
+        console.log(input)
+        expect(input[0].files[0].name).to.equal('example.json')  
+      })
+      
+  })
+
+  //SEÇÃO 7 AULA 6 - EXERCÍCIO EXTRA 1
+  //DRA-DROP SIMULA O USUÁRIO ARRASTANDO O ARQUIVO
+  it('seleciona um arquivo simulando um drag-and-drop', () => {
+      cy.get('input[type="file"]')
+      .selectFile('cypress/fixtures/example.json', { action: 'drag-drop' }) 
+      .should(input => {
+        expect(input[0].files[0].name).to.equal('example.json')  
+      })  
+  })
+
+  //SEÇÃO 7 AULA 6 - EXERCÍCIO EXTRA 2
+  it('seleciona um arquivo utilizando uma fixture para a qual foi dada um alias', () => {
+    cy.fixture('example.json', null).as('example')
+    cy.get('input[type="file"]')
+      .selectFile('@example')
+      .should(input => {
+        expect(input[0].files[0].name).to.equal('example.json')
+      })
+  })
+
+  //SEÇÃO 8 AULA 7 - EXERCÍCIO
+  it('verifica que a política de privacidade abre em outra aba sem a necessidade de um clique', () => {
+    cy.contains('a', 'Política de Privacidade')
+      .should('have.attr', 'href', 'privacy.html')
+      .and('have.attr', 'target', '_blank')
+  })
+
+  //SEÇÃO 8 AULA 7 - EXERCÍCIO EXTRA 1
+  it('acessa a página da política de privacidade removendo o target e então clicando no link', () => {
+    cy.contains('a', 'Política de Privacidade')
+      .invoke('removeAttr', 'target')
+      .click()
+    cy.contains('h1', 'CAC TAT - Política de Privacidade')
+      .should('be.visible')
+      //.shold('not.have.value', 'target', '_blank')
+  })
+
+  //SEÇÃO 8 AULA 7 - EXERCÍCIO EXTRA 2 - EXERCICIO NO ARQUIVO PRIVACYPOLICY.CY.JS
   
 })
 
