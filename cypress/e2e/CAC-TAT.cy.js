@@ -289,6 +289,63 @@ describe('Central de Atendimento ao Cliente TAT', () => {
   })
 
   //SEÇÃO 8 AULA 7 - EXERCÍCIO EXTRA 2 - EXERCICIO NO ARQUIVO PRIVACYPOLICY.CY.JS
+
+  //SEÇÃO 13 AULA 12 - EXERCÍCIO
+  it('preenche os campos obrigatórios e envia o formulário - Com congelamento de tempo', () => {
+    cy.clock()
+    const longText = Cypress._.repeat('Joao', 5)
+    cy.get('#firstName').type('João')
+    cy.get('#lastName').type('Klunk')
+    cy.get('#email').type('joao@email.com')
+    cy.get('#open-text-area').type(longText, {delay: 0})
+    cy.get('button[type="submit"]').click()
+
+    cy.get('.success').should('be.visible')
+
+    cy.tick(3000)
+    cy.get('.success').should('be.not.visible')
+  })
+
+  it('exibe mensagem de erro ao submeter o formulário com um email com formatação inválida - Com congelamento de tempo', () => {
+    cy.clock()
+    const longText = Cypress._.repeat('Joao', 5)
+    cy.get('#firstName').type('João')
+    cy.get('#lastName').type('Klunk')
+    cy.get('#email').type('joaoteste')
+    cy.get('#open-text-area').type(longText, {delay: 0})
+    cy.get('button[type="submit"]').click()
+
+    cy.get('.error > strong').should('be.visible')
+
+    cy.tick(3000)
+    cy.get('.error > strong').should('be.not.visible')
+  })
+
+  it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário - Com congelamento de tempo', () => {
+    cy.clock()
+    cy.get('#firstName').type('João')
+    cy.get('#lastName').type('Klunk')
+    cy.get('#email').type('joao@email.com')
+    cy.get('#phone-checkbox').check()
+    cy.get('#open-text-area').type('teste')
+    cy.get('button[type="submit"]').click()
+
+    cy.get('.error > strong').should('be.visible')
+
+    cy.tick(3000)
+    cy.get('.error > strong').should('be.not.visible')
+  })
+
+  it.only('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios - Com congelamento de tempo', () => {
+    cy.clock()
+    cy.get('button[type="submit"]')
+      .click()
+    cy.get('.error > strong')
+      .should('be.visible')
+    cy.tick(3000)
+    cy.get('.error > strong')
+      .should('be.not.visible')
+  })
   
 })
 
