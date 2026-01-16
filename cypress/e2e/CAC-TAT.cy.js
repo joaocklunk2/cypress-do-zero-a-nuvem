@@ -46,7 +46,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('button[type="submit"]').click()
 
     cy.get('.success > strong').should('be.visible')
-  }) //teste
+  }) 
 
     it('exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', () => {
     const longText = Cypress._.repeat('Joao', 100)
