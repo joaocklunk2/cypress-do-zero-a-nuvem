@@ -10,7 +10,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.title().should('include', 'Cliente')
   })
 
-   it('preenche os campos obrigatórios e envia o formulário', () => {
+  it('preenche os campos obrigatórios e envia o formulário', () => {
     /*MINHA SOLUÇÃO
     cy.get('input[name="firstName"]')
     .as('firstName')
@@ -42,24 +42,24 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('#firstName').type('João')
     cy.get('#lastName').type('Klunk')
     cy.get('#email').type('joao@email.com')
-    cy.get('#open-text-area').type(longText, {delay: 0})
+    cy.get('#open-text-area').type(longText, { delay: 0 })
     cy.get('button[type="submit"]').click()
 
     cy.get('.success > strong').should('be.visible')
-  }) 
+  })
 
-    it('exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', () => {
+  it('exibe mensagem de erro ao submeter o formulário com um email com formatação inválida', () => {
     const longText = Cypress._.repeat('Joao', 100)
     cy.get('#firstName').type('João')
     cy.get('#lastName').type('Klunk')
     cy.get('#email').type('joaoteste')
-    cy.get('#open-text-area').type(longText, {delay: 0})
+    cy.get('#open-text-area').type(longText, { delay: 0 })
     cy.get('button[type="submit"]').click()
 
     cy.get('.error > strong').should('be.visible')
   })
 
-    it('valida se o campo de telefone está vazio quando preenchido com um valor não numérico', () => {
+  it('valida se o campo de telefone está vazio quando preenchido com um valor não numérico', () => {
     cy.get('#phone')
       .type('joaoteste')
       .should('have.value', '') //verifica se tem um valor no campo 
@@ -96,7 +96,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
       .type('51984183158')
       .should('have.value', '51984183158')
       .clear()
-      .should('have.value', '')   
+      .should('have.value', '')
   })
 
   it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios', () => {
@@ -124,14 +124,14 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('.success').should('be.visible')
   })
 
-//SEÇÃO 3, EXERCÍCIO EXTRA 7 - 3ª VERSÃO - Posso colocar um objeto conforme a versão 2, senão colocar ele pega o objeto que está no comando customizado
+  //SEÇÃO 3, EXERCÍCIO EXTRA 7 - 3ª VERSÃO - Posso colocar um objeto conforme a versão 2, senão colocar ele pega o objeto que está no comando customizado
   it('envia o formuário com sucesso usando um comando customizado', () => {
     cy.fillMandatoryFieldsAndSubmit()
     cy.get('.success').should('be.visible')
   })
 
   //SEÇÃO 3, EXERCÍCIO EXTRA 8
-    it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', () => {
+  it('exibe mensagem de erro quando o telefone se torna obrigatório mas não é preenchido antes do envio do formulário', () => {
     cy.get('#firstName').type('João')
     cy.get('#lastName').type('Klunk')
     cy.get('#email').type('joao@email.com')
@@ -178,7 +178,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
         cy.wrap($ajuda, $elogio, $feedback)
           .check()
           .should('be.checked')
-    })
+      })
   })
 
   //SOLUÇÃO DO PROFESSOR 
@@ -188,23 +188,23 @@ describe('Central de Atendimento ao Cliente TAT', () => {
         cy.wrap(typeOfService)
           .check()
           .should('be.checked')
-    })
+      })
   })
 
   //SEÇÃO 6 AULA 5 - EXERCÍCIO
   //MINHA SOLUÇÃO
   it('marca ambos checkboxes, depois desmarca o último', () => {
     cy.get('input[type="checkbox"]')
-      .as('checkboxes')  
+      .as('checkboxes')
       .check()
       .should('be.checked').last()
 
     cy.get('@checkboxes')
       .each(checkbox => {
-    })
+      })
       .last()
       .uncheck()
-      .should('not.be.checked')    
+      .should('not.be.checked')
   })
 
   //SOLUÇÃO DO PROFESSOR 
@@ -226,14 +226,14 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('#open-text-area').type('teste')
     cy.contains('button', 'Enviar').click()
 
-    cy.get('.error > strong').should('be.visible')    
+    cy.get('.error > strong').should('be.visible')
   })
 
   //SEÇÃO 7 AULA 6 - EXERCÍCIO
   //MINHA SOLUÇÃO
   it('seleciona um arquivo da pasta fixtures', () => {
     cy.get('input[type="file"]')
-      .selectFile('cypress/fixtures/example.json') 
+      .selectFile('cypress/fixtures/example.json')
       .then(input => {
         console.log(input)
         expect(input[0].files[0].name).to.equal('example.json')
@@ -243,22 +243,22 @@ describe('Central de Atendimento ao Cliente TAT', () => {
   //SOLUÇÃO DO PROFESSOR
   it('seleciona um arquivo da pasta fixtures 2', () => {
     cy.get('input[type="file"]')
-      .selectFile('cypress/fixtures/example.json') 
+      .selectFile('cypress/fixtures/example.json')
       .should(input => {
         console.log(input)
-        expect(input[0].files[0].name).to.equal('example.json')  
+        expect(input[0].files[0].name).to.equal('example.json')
       })
-      
+
   })
 
   //SEÇÃO 7 AULA 6 - EXERCÍCIO EXTRA 1
   //DRA-DROP SIMULA O USUÁRIO ARRASTANDO O ARQUIVO
   it('seleciona um arquivo simulando um drag-and-drop', () => {
-      cy.get('input[type="file"]')
-      .selectFile('cypress/fixtures/example.json', { action: 'drag-drop' }) 
+    cy.get('input[type="file"]')
+      .selectFile('cypress/fixtures/example.json', { action: 'drag-drop' })
       .should(input => {
-        expect(input[0].files[0].name).to.equal('example.json')  
-      })  
+        expect(input[0].files[0].name).to.equal('example.json')
+      })
   })
 
   //SEÇÃO 7 AULA 6 - EXERCÍCIO EXTRA 2
@@ -285,7 +285,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
       .click()
     cy.contains('h1', 'CAC TAT - Política de Privacidade')
       .should('be.visible')
-      //.shold('not.have.value', 'target', '_blank')
+    //.shold('not.have.value', 'target', '_blank')
   })
 
   //SEÇÃO 8 AULA 7 - EXERCÍCIO EXTRA 2 - EXERCICIO NO ARQUIVO PRIVACYPOLICY.CY.JS
@@ -297,7 +297,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('#firstName').type('João')
     cy.get('#lastName').type('Klunk')
     cy.get('#email').type('joao@email.com')
-    cy.get('#open-text-area').type(longText, {delay: 0})
+    cy.get('#open-text-area').type(longText, { delay: 0 })
     cy.get('button[type="submit"]').click()
 
     cy.get('.success').should('be.visible')
@@ -312,7 +312,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('#firstName').type('João')
     cy.get('#lastName').type('Klunk')
     cy.get('#email').type('joaoteste')
-    cy.get('#open-text-area').type(longText, {delay: 0})
+    cy.get('#open-text-area').type(longText, { delay: 0 })
     cy.get('button[type="submit"]').click()
 
     cy.get('.error > strong').should('be.visible')
@@ -336,7 +336,7 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('.error > strong').should('be.not.visible')
   })
 
-  it.only('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios - Com congelamento de tempo', () => {
+  it('exibe mensagem de erro ao submeter o formulário sem preencher os campos obrigatórios - Com congelamento de tempo', () => {
     cy.clock()
     cy.get('button[type="submit"]')
       .click()
@@ -346,6 +346,61 @@ describe('Central de Atendimento ao Cliente TAT', () => {
     cy.get('.error > strong')
       .should('be.not.visible')
   })
-  
+
+  //SEÇÃO 13 AULA 12 - EXERCÍCIO EXTRA 1
+  Cypress._.times(3, () => {
+    it('verifica o título da aplicação - Lodash (.times)', () => {
+      cy.title('Central de Atendimento ao Cliente TAT')
+      cy.title().should('be.equal', 'Central de Atendimento ao Cliente TAT')
+      cy.title().should('include', 'Cliente')
+    })
+  })
+
+  //SEÇÃO 13 AULA 12 - EXERCÍCIO EXTRA 2
+  it('exibe e oculta as mensagens de sucesso e erro usando .invoke()', () => {
+    cy.get('.success')
+      .should('not.be.visible')
+      .invoke('show')
+      .should('be.visible')
+      .and('contain', 'Mensagem enviada com sucesso.')
+      .invoke('hide')
+      .should('not.be.visible')
+    cy.get('.error')
+      .should('not.be.visible')
+      .invoke('show')
+      .should('be.visible')
+      .and('contain', 'Valide os campos obrigatórios!')
+      .invoke('hide')
+      .should('not.be.visible')
+  })
+
+  //SEÇÃO 13 AULA 12 - EXERCÍCIO EXTRA 3 - SIMULA UM CTRL+V, ELE NÃO DIGITA CARACTER POR CARACTER
+  it('preenche o campo da área de texto usando o comando invoke', () => {
+    cy.get('#open-text-area')
+      .invoke('val', 'um texto qualquer')
+      .should('have.value', 'um texto qualquer')
+  })
+
+  //SEÇÃO 13 AULA 12 - EXERCÍCIO EXTRA 4
+  it('faz uma requisição HTTP', () => {
+    cy.request('https://cac-tat-v3.s3.eu-central-1.amazonaws.com/index.html')
+      .then((response) => {
+        expect(response.status).to.equal(200)
+        expect(response.statusText).to.equal('OK')
+        expect(response.body).to.contain('CAC TAT')
+      })
+  })
+
+  it.only('Desafio (encontre o gato)', () => {
+    cy.get('#cat')
+      .invoke('show')
+      .should('be.visible')
+      .and('contain', '🐈')
+    //.invoke('hide')
+    //.should('not.be.visible')
+  })
+
+
+
 })
 
